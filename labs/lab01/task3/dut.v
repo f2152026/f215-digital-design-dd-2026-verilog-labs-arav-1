@@ -4,7 +4,23 @@
 // run tb.v, then switch to a different implementation and repeat -- this
 // lets you compare rca.v, cla4.v, and cla4_dataflow.v using the exact same
 // testbench and stimulus each time.
+module FA_Gate(
+  input  a,
+  input  b,
+  input  cin,
+  output sum,
+  output cout
+);
 
+  wire ps, pc1, pc2;
+
+  xor #(2,3) (ps,   a,   b);
+  and #(2,3) (pc1,  a,   b);
+  xor #(2,3) (sum, cin, ps);
+  and #(2,3) (pc2, cin, ps);
+  or  #(2,3) (cout, pc1, pc2);
+
+endmodule
 module dut(
   input  [3:0] a,
   input  [3:0] b,
